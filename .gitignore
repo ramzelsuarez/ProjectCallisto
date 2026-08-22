@@ -1,0 +1,38 @@
+# Visual Studio / Rider
+.vs/
+.idea/
+.vscode/
+
+# Unreal Engine generated files
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Generated project/solution files
+*.sln
+*.slnx
+*.VC.db
+*.VC.opendb
+
+# RiderLink generated plugin
+Plugins/Developer/RiderLink/
+
+# Unreal build artifacts
+*.opensdf
+*.sdf
+*.suo
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Visual Studio configuration
+.vsconfig
+
+# Third-party Epic / Paragon assets
+# Not distributed with the public portfolio repository
+Content/ParagonMinions/
+Content/ParagonBoris/
