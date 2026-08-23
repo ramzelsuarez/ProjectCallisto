@@ -6,9 +6,6 @@
 #include "AbilitySystem/Ability/Callisto_GameplayAbility.h"
 #include "Callisto_HitReact.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECTCALLISTO_API UCallisto_HitReact : public UCallisto_GameplayAbility
 {
