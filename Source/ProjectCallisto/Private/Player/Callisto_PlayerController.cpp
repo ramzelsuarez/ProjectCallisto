@@ -33,6 +33,8 @@ void ACallisto_PlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
 	
 	EnhancedInputComponent->BindAction(PrimaryAction, ETriggerEvent::Started, this, &ThisClass::Primary);
+	EnhancedInputComponent->BindAction(SecondaryAction, ETriggerEvent::Started, this, &ThisClass::Secondary);
+	EnhancedInputComponent->BindAction(TertiaryAction, ETriggerEvent::Started, this, &ThisClass::Tertiary);
 	
 }
 
@@ -76,6 +78,16 @@ void ACallisto_PlayerController::Look(const FInputActionValue& Value)
 void ACallisto_PlayerController::Primary()
 {
 	ActivateAbility(CallistoTags::CallistoAbilities::Primary);
+}
+
+void ACallisto_PlayerController::Secondary()
+{
+	ActivateAbility(CallistoTags::CallistoAbilities::Secondary);
+}
+
+void ACallisto_PlayerController::Tertiary()
+{
+	ActivateAbility(CallistoTags::CallistoAbilities::Tertiary);
 }
 
 void ACallisto_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
