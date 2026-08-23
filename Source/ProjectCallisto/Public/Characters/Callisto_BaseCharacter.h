@@ -15,4 +15,12 @@ class PROJECTCALLISTO_API ACallisto_BaseCharacter : public ACharacter, public IA
 public:
 	ACallisto_BaseCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	
+protected:
+	void GiveStartupAbilities();
+
+private:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Callisto|Abilities")
+	TArray<TSubclassOf<class UGameplayAbility>> StartupAbilities;
 };

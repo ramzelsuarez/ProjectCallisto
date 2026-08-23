@@ -3,6 +3,8 @@
 
 #include "ProjectCallisto/Public/Characters/Callisto_BaseCharacter.h"
 
+#include "AbilitySystemComponent.h"
+#include "GameplayAbilitySpec.h"
 #include "Components/SkeletalMeshComponent.h"
 
 
@@ -18,5 +20,16 @@ ACallisto_BaseCharacter::ACallisto_BaseCharacter()
 UAbilitySystemComponent* ACallisto_BaseCharacter::GetAbilitySystemComponent() const
 {
 	return nullptr;
+}
+
+void ACallisto_BaseCharacter::GiveStartupAbilities()
+{
+	if (!IsValid(GetAbilitySystemComponent())) return;
+	
+	for (const auto& Ability : StartupAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability);
+		GetAbilitySystemComponent()->GiveAbility(AbilitySpec);
+	}
 }
 
