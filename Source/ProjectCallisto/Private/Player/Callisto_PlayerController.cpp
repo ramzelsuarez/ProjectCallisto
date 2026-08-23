@@ -3,11 +3,14 @@
 
 #include "Player/Callisto_PlayerController.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/Character.h"
+#include "GameplayTags/CallistoTags.h"
 
 void ACallisto_PlayerController::SetupInputComponent()
 {
@@ -72,5 +75,13 @@ void ACallisto_PlayerController::Look(const FInputActionValue& Value)
 
 void ACallisto_PlayerController::Primary()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Primary"));
+	ActivateAbility(CallistoTags::CallistoAbilities::Primary);
+}
+
+void ACallisto_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
+{
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
+	if (!IsValid(ASC)) return;
+	
+	ASC->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
 }
