@@ -15,3 +15,8 @@ ACallisto_BaseCharacter::ACallisto_BaseCharacter()
 	
 }
 
+UAbilitySystemComponent* ACallisto_BaseCharacter::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+
