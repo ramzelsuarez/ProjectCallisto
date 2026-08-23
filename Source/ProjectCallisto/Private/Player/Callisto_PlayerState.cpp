@@ -2,14 +2,13 @@
 
 
 #include "Player/Callisto_PlayerState.h"
-
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/Callisto_AbilitySystemComponent.h"
 
 ACallisto_PlayerState::ACallisto_PlayerState()
 {
 	SetNetUpdateFrequency(100.f);
 	
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UCallisto_AbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 }

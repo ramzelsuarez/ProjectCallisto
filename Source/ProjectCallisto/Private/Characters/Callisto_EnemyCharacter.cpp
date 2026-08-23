@@ -3,14 +3,14 @@
 
 #include "Characters/Callisto_EnemyCharacter.h"
 
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/Callisto_AbilitySystemComponent.h"
 
 
 ACallisto_EnemyCharacter::ACallisto_EnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UCallisto_AbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
