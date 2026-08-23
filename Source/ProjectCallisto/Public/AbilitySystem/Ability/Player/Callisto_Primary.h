@@ -13,9 +13,14 @@ class PROJECTCALLISTO_API UCallisto_Primary : public UCallisto_GameplayAbility
 public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Callisto|Abilities")
-	void HitBoxOverlapTest();
+	TArray<AActor*> HitBoxOverlapTest();
+	
+	UFUNCTION(BlueprintCallable, Category = "Callisto|Abilities")
+	void SendHitReactEventToActors(const TArray<AActor*>& ActorsHit);
 	
 private:
+	
+	void DrawHitBoxOverlapDebugs(const TArray<FOverlapResult>& OverlapResults, const FVector& HitBoxLocation) const;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Callisto|Abilities")
 	float HitBoxRadius = 100.0f;

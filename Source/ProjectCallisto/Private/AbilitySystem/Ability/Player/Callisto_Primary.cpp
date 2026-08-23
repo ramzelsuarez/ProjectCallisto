@@ -3,13 +3,15 @@
 
 #include "AbilitySystem/Ability/Player/Callisto_Primary.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "CollisionQueryParams.h"
 #include "CollisionShape.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/OverlapResult.h"
 #include "Engine/World.h"
+#include "GameplayTags/CallistoTags.h"
 
-void UCallisto_Primary::HitBoxOverlapTest()
+TArray<AActor*> UCallisto_Primary::HitBoxOverlapTest()
 {
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Add(GetAvatarActorFromActorInfo());
@@ -30,18 +32,42 @@ void UCallisto_Primary::HitBoxOverlapTest()
 	
 	GetWorld()->OverlapMultiByChannel(OverlapResults, HitBoxLocation, FQuat::Identity, ECC_Visibility, Sphere, QueryParams, ResponseParams);
 	
+	TArray<AActor*> ActorsHit;
+	for (const FOverlapResult& Result : OverlapResults)
+	{
+		if (!IsValid(Result.GetActor())) continue;
+		ActorsHit.AddUnique(Result.GetActor());
+	}
+	
 	if (bDrawDebugs)
 	{
-		DrawDebugSphere(GetWorld(), HitBoxLocation, HitBoxRadius, 16, FColor::Red, false, 3.f);
+		DrawHitBoxOverlapDebugs(OverlapResults, HitBoxLocation);
+	}
+	
+	return ActorsHit;
+}
+
+void UCallisto_Primary::SendHitReactEventToActors(const TArray<AActor*>& ActorsHit)
+{
+	for (AActor* HitActor : ActorsHit)
+	{
+		FGameplayEventData PayLoad;
+		PayLoad.Instigator = GetAvatarActorFromActorInfo();
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(HitActor, CallistoTags::Events::Enemy::HitReact, PayLoad);
+	}
+}
+
+void UCallisto_Primary::DrawHitBoxOverlapDebugs(const TArray<FOverlapResult>& OverlapResults, const FVector& HitBoxLocation) const
+{
+	DrawDebugSphere(GetWorld(), HitBoxLocation, HitBoxRadius, 16, FColor::Red, false, 3.f);
 		
-		for (const FOverlapResult& Result : OverlapResults)
+	for (const FOverlapResult& Result : OverlapResults)
+	{
+		if (IsValid(Result.GetActor()))
 		{
-			if (IsValid(Result.GetActor()))
-			{
-				FVector DebugLocation = Result.GetActor()->GetActorLocation();
-				DebugLocation.Z += 100.f;
-				DrawDebugSphere(GetWorld(), DebugLocation, 30.f, 10, FColor::Green, false, 3.f);
-			}
+			FVector DebugLocation = Result.GetActor()->GetActorLocation();
+			DebugLocation.Z += 100.f;
+			DrawDebugSphere(GetWorld(), DebugLocation, 30.f, 10, FColor::Green, false, 3.f);
 		}
 	}
 }
