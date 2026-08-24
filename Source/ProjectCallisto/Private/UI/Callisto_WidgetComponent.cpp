@@ -17,7 +17,10 @@ void UCallisto_WidgetComponent::BeginPlay()
 	if (!IsASCInitialized())
 	{
 		CallistoCharacter->OnASCInitialized.AddDynamic(this, &ThisClass::OnASCInitialized);
+		return;
 	}
+	
+	InitializeAttributeDelegate();
 }
 
 void UCallisto_WidgetComponent::InitAbilitySystemData()
@@ -32,12 +35,29 @@ bool UCallisto_WidgetComponent::IsASCInitialized() const
 	return AbilitySystemComponent.IsValid() && AttributeSet.IsValid();
 }
 
+void UCallisto_WidgetComponent::InitializeAttributeDelegate()
+{
+	if (!AttributeSet->bAttributesInitialized)
+	{
+		AttributeSet->OnAttributesInitialized.AddDynamic(this, &ThisClass::BindToAttributeChanges);
+	}
+	else
+	{
+		BindToAttributeChanges();
+	}
+}
+
 void UCallisto_WidgetComponent::OnASCInitialized(UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 	AbilitySystemComponent = Cast<UCallisto_AbilitySystemComponent>(ASC);
 	AttributeSet = Cast<UCallisto_AttributeSet>(AS);
 	
-	// TODO: Check if the Attribute Set has been initialized with the first Gameplay Effect
-	// If not, bind to some delegate that will be broadcast when it is initialized.
+	if (!IsASCInitialized()) return;
+	InitializeAttributeDelegate();
+}
+
+void UCallisto_WidgetComponent::BindToAttributeChanges()
+{
+	// TODO: Listen for changes to Gameplay Attributes and update widgets accordingly.
 }
 
