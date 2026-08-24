@@ -5,7 +5,9 @@
 
 #include "AbilitySystem/Callisto_AbilitySystemComponent.h"
 #include "AbilitySystem/Callisto_AttributeSet.h"
+#include "Blueprint/WidgetTree.h"
 #include "Characters/Callisto_BaseCharacter.h"
+#include "UI/Callisto_AttributeWidget.h"
 
 
 void UCallisto_WidgetComponent::BeginPlay()
@@ -58,6 +60,27 @@ void UCallisto_WidgetComponent::OnASCInitialized(UAbilitySystemComponent* ASC, U
 
 void UCallisto_WidgetComponent::BindToAttributeChanges()
 {
-	// TODO: Listen for changes to Gameplay Attributes and update widgets accordingly.
+	for (const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair : AttributeMap)
+	{
+		BindWidgetToAttributeChanges(GetUserWidgetObject(), Pair); // For checking the owned widget object.
+		
+		GetUserWidgetObject()->WidgetTree->ForEachWidget([this, &Pair](UWidget* ChildWidget)
+		{
+			BindWidgetToAttributeChanges(ChildWidget, Pair);
+		});
+	}
 }
 
+void UCallisto_WidgetComponent::BindWidgetToAttributeChanges(UWidget* WidgetObject, const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair) const
+{
+	UCallisto_AttributeWidget* AttributeWidget = Cast<UCallisto_AttributeWidget>(WidgetObject);
+	if (!IsValid(AttributeWidget)) return; // We only care about Callisto Widgets
+	if (!AttributeWidget->MatchesAttributes(Pair)) return; // Only subscribe for matching Attributes
+		
+	AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); // for initial values.
+		
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Key).AddLambda([this, AttributeWidget, &Pair](const FOnAttributeChangeData& AttributeChangeData)
+	{
+		AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); // For changes during the game
+	});
+}
