@@ -3,6 +3,7 @@
 
 #include "Player/Callisto_PlayerState.h"
 #include "AbilitySystem/Callisto_AbilitySystemComponent.h"
+#include "AbilitySystem/Callisto_AttributeSet.h"
 
 ACallisto_PlayerState::ACallisto_PlayerState()
 {
@@ -12,7 +13,7 @@ ACallisto_PlayerState::ACallisto_PlayerState()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UCallisto_AttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* ACallisto_PlayerState::GetAbilitySystemComponent() const
