@@ -43,10 +43,17 @@ ACallisto_PlayerCharacter::ACallisto_PlayerCharacter()
 UAbilitySystemComponent* ACallisto_PlayerCharacter::GetAbilitySystemComponent() const
 {
 	ACallisto_PlayerState* CallistoPlayerState = Cast<ACallisto_PlayerState>(GetPlayerState());
-	
 	if (!IsValid(CallistoPlayerState)) return nullptr;
 	
 	return CallistoPlayerState->GetAbilitySystemComponent();
+}
+
+UAttributeSet* ACallisto_PlayerCharacter::GetAttributeSet() const
+{
+	ACallisto_PlayerState* CallistoPlayerState = Cast<ACallisto_PlayerState>(GetPlayerState());
+	if (!IsValid(CallistoPlayerState)) return nullptr;
+	
+	return CallistoPlayerState->GetAttributeSet();
 }
 
 void ACallisto_PlayerCharacter::PossessedBy(AController* NewController)
@@ -56,6 +63,7 @@ void ACallisto_PlayerCharacter::PossessedBy(AController* NewController)
 	if (!IsValid(GetAbilitySystemComponent()) || !HasAuthority()) return;
 	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(),this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
 	InitializeAttributes();
 }
@@ -67,5 +75,6 @@ void ACallisto_PlayerCharacter::OnRep_PlayerState()
 	if (!IsValid(GetAbilitySystemComponent())) return;
 	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(),this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 }
 

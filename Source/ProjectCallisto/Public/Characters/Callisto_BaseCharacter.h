@@ -7,8 +7,11 @@
 #include "GameFramework/Character.h"
 #include "Callisto_BaseCharacter.generated.h"
 
+class UAttributeSet;
 class UGameplayAbility;
 class UGameplayEffect;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FASCInitialized, UAbilitySystemComponent*, ASC, UAttributeSet*, AS);
 
 UCLASS(Abstract)
 class PROJECTCALLISTO_API ACallisto_BaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -18,7 +21,10 @@ class PROJECTCALLISTO_API ACallisto_BaseCharacter : public ACharacter, public IA
 public:
 	ACallisto_BaseCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAttributeSet* GetAttributeSet() const { return nullptr;};
 	
+	UPROPERTY(BlueprintAssignable)
+	FASCInitialized OnASCInitialized;
 protected:
 	void GiveStartupAbilities();
 	void InitializeAttributes() const;

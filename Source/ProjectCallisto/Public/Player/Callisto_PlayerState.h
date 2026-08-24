@@ -17,7 +17,7 @@ class PROJECTCALLISTO_API ACallisto_PlayerState : public APlayerState, public IA
 public:
 	ACallisto_PlayerState();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 private:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Callisto|Abilities")

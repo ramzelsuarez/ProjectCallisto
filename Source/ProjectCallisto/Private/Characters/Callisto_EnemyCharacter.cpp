@@ -23,6 +23,11 @@ UAbilitySystemComponent* ACallisto_EnemyCharacter::GetAbilitySystemComponent() c
 	return AbilitySystemComponent;
 }
 
+UAttributeSet* ACallisto_EnemyCharacter::GetAttributeSet() const
+{
+	return AttributeSet;
+}
+
 void ACallisto_EnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,6 +35,7 @@ void ACallisto_EnemyCharacter::BeginPlay()
 	if (!IsValid(GetAbilitySystemComponent())) return;
 	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	
 	if (!HasAuthority()) return;
 	

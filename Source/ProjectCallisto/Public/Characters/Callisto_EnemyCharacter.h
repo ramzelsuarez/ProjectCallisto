@@ -17,6 +17,7 @@ class PROJECTCALLISTO_API ACallisto_EnemyCharacter : public ACallisto_BaseCharac
 public:
 	ACallisto_EnemyCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAttributeSet* GetAttributeSet() const override;
 
 protected:
 	virtual void BeginPlay() override;
