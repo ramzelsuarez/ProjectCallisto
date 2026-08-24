@@ -4,6 +4,7 @@
 #include "Characters/Callisto_EnemyCharacter.h"
 
 #include "AbilitySystem/Callisto_AbilitySystemComponent.h"
+#include "AbilitySystem/Callisto_AttributeSet.h"
 
 
 ACallisto_EnemyCharacter::ACallisto_EnemyCharacter()
@@ -13,6 +14,8 @@ ACallisto_EnemyCharacter::ACallisto_EnemyCharacter()
 	AbilitySystemComponent = CreateDefaultSubobject<UCallisto_AbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	
+	AttributeSet = CreateDefaultSubobject<UCallisto_AttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* ACallisto_EnemyCharacter::GetAbilitySystemComponent() const

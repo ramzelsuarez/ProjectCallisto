@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "Callisto_PlayerState.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -21,4 +22,7 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Callisto|Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

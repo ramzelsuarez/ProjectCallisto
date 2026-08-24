@@ -6,6 +6,7 @@
 #include "Callisto_BaseCharacter.h"
 #include "Callisto_EnemyCharacter.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -24,4 +25,7 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

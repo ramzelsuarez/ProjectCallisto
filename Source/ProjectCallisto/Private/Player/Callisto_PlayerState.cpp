@@ -11,6 +11,8 @@ ACallisto_PlayerState::ACallisto_PlayerState()
 	AbilitySystemComponent = CreateDefaultSubobject<UCallisto_AbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	
+	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* ACallisto_PlayerState::GetAbilitySystemComponent() const
