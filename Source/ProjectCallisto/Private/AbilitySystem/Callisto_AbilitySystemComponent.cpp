@@ -24,6 +24,28 @@ void UCallisto_AbilitySystemComponent::OnRep_ActivateAbilities()
 	}
 }
 
+void UCallisto_AbilitySystemComponent::SetAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level)
+{
+	if (!IsValid(GetAvatarActor()) || !GetAvatarActor()->HasAuthority()) return;
+
+	if (FGameplayAbilitySpec* AbilitySpec = FindAbilitySpecFromClass(AbilityClass))
+	{
+		AbilitySpec->Level = Level;
+		MarkAbilitySpecDirty(*AbilitySpec);
+	}
+}
+
+void UCallisto_AbilitySystemComponent::AddToAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level)
+{
+	if (!IsValid(GetAvatarActor()) || !GetAvatarActor()->HasAuthority()) return;
+
+	if (FGameplayAbilitySpec* AbilitySpec = FindAbilitySpecFromClass(AbilityClass))
+	{
+		AbilitySpec->Level += Level;
+		MarkAbilitySpecDirty(*AbilitySpec);
+	}
+}
+
 void UCallisto_AbilitySystemComponent::HandleAutoActivatedAbility(FGameplayAbilitySpec& AbilitySpec)
 {
 	if (!IsValid(AbilitySpec.Ability)) return;
