@@ -4,6 +4,7 @@
 #include "ProjectCallisto/Public/Characters/Callisto_PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/Callisto_AttributeSet.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -66,6 +67,11 @@ void ACallisto_PlayerCharacter::PossessedBy(AController* NewController)
 	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
 	InitializeAttributes();
+	
+	UCallisto_AttributeSet* Callisto_AttributeSet = Cast<UCallisto_AttributeSet>(GetAttributeSet());
+	if (!IsValid(Callisto_AttributeSet)) return;
+	
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(Callisto_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
 void ACallisto_PlayerCharacter::OnRep_PlayerState()
@@ -76,5 +82,10 @@ void ACallisto_PlayerCharacter::OnRep_PlayerState()
 	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(),this);
 	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+	
+	UCallisto_AttributeSet* Callisto_AttributeSet = Cast<UCallisto_AttributeSet>(GetAttributeSet());
+	if (!IsValid(Callisto_AttributeSet)) return;
+	
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(Callisto_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 

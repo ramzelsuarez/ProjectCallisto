@@ -41,5 +41,10 @@ void ACallisto_EnemyCharacter::BeginPlay()
 	
 	GiveStartupAbilities();
 	InitializeAttributes();
+	
+	UCallisto_AttributeSet* Callisto_AttributeSet = Cast<UCallisto_AttributeSet>(GetAttributeSet());
+	if (!IsValid(Callisto_AttributeSet)) return;
+	
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(Callisto_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
