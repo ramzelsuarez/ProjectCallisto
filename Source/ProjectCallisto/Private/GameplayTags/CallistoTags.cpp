@@ -13,6 +13,8 @@ namespace CallistoTags
 	
 	namespace Events
 	{
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(KillScored, "CallistoTags.Events.KillScored", "Tag for the KillScored Event")
+		
 		namespace Enemy
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "CallistoTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event")
