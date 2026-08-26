@@ -32,6 +32,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Callisto|Death")
 	virtual void HandleRespawn();
+	
+	UFUNCTION(BlueprintCallable, Category = "Callisto|Attributes")
+	void ResetAttributes();
+	
 protected:
 	void GiveStartupAbilities();
 	void InitializeAttributes() const;
@@ -45,6 +49,9 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Callisto|Effects")
 	TSubclassOf<UGameplayEffect> InitializeAttributesEffect;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Callisto|Effects")
+	TSubclassOf<UGameplayEffect> ResetAttributesEffect;
 	
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Replicated)
 	bool bAlive = true;
