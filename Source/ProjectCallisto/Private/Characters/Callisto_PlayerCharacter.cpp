@@ -39,6 +39,8 @@ ACallisto_PlayerCharacter::ACallisto_PlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>("FollowCamera");
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	
+	Tags.Add(ProjectCallistoTags::Player);
 }
 
 UAbilitySystemComponent* ACallisto_PlayerCharacter::GetAbilitySystemComponent() const

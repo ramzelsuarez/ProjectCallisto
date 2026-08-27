@@ -7,6 +7,11 @@
 #include "GameFramework/Character.h"
 #include "Callisto_BaseCharacter.generated.h"
 
+namespace ProjectCallistoTags
+{
+	extern PROJECTCALLISTO_API const FName Player;
+}
+
 struct FOnAttributeChangeData;
 class UAttributeSet;
 class UGameplayAbility;

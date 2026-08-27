@@ -9,6 +9,11 @@
 #include "Engine/Engine.h"
 #include "Net/UnrealNetwork.h"
 
+namespace ProjectCallistoTags
+{
+	const FName Player = FName("Player");
+}
+
 ACallisto_BaseCharacter::ACallisto_BaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
