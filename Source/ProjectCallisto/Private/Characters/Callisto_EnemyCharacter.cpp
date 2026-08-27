@@ -3,6 +3,7 @@
 
 #include "Characters/Callisto_EnemyCharacter.h"
 
+#include "AIController.h"
 #include "AbilitySystem/Callisto_AbilitySystemComponent.h"
 #include "AbilitySystem/Callisto_AttributeSet.h"
 
@@ -46,5 +47,14 @@ void ACallisto_EnemyCharacter::BeginPlay()
 	if (!IsValid(Callisto_AttributeSet)) return;
 	
 	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(Callisto_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
+}
+
+void ACallisto_EnemyCharacter::HandleDeath()
+{
+	Super::HandleDeath();
+	
+	AAIController* AIController = GetController<AAIController>();
+	if (!IsValid(AIController)) return;
+	AIController->StopMovement();
 }
 

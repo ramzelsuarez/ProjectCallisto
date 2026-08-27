@@ -60,11 +60,6 @@ void ACallisto_BaseCharacter::OnHealthChanged(const FOnAttributeChangeData& Attr
 	if (AttributeChangeData.NewValue <= 0.f)
 	{
 		HandleDeath();
-		
-		if (IsValid(GEngine))
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("%s has died!"), *GetName()));
-		}
 	}
 }
 
