@@ -27,6 +27,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Callisto|AI")
 	float MaxAttackDelay{.5f};
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	float GetTimelineLength();
 
 protected:
 	virtual void BeginPlay() override;

@@ -9,6 +9,11 @@ namespace CallistoTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Primary, "CallistoTags.CallistoAbilities.Primary", "Tag for the Primary Ability")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Secondary, "CallistoTags.CallistoAbilities.Secondary", "Tag for the Secondary Ability")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Tertiary, "CallistoTags.CallistoAbilities.Tertiary", "Tag for the Tertiary Ability")
+		
+		namespace Enemy
+		{
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attack, "CallistoTags.CallistoAbilities.Enemy.Attack", "Enemy Attack Tag")
+		}
 	}
 	
 	namespace Events
@@ -18,6 +23,7 @@ namespace CallistoTags
 		namespace Enemy
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "CallistoTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(EndAttack, "CallistoTags.Events.Enemy.EndAttack", "Tag for the Enemy Ending an Attack")
 		}
 	}
 }
