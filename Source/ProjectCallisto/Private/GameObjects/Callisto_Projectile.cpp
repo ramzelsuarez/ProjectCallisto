@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "Characters/Callisto_PlayerCharacter.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "GameplayTags/CallistoTags.h"
 
 
 ACallisto_Projectile::ACallisto_Projectile()
@@ -30,8 +31,7 @@ void ACallisto_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 	FGameplayEffectContextHandle ContextHandle = AbilitySystemComponent->MakeEffectContext();
 	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DamageEffect, 1.f, ContextHandle);
 	
-	// TODO: Use the Damage variable for the amount of damage to cause
-	
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, CallistoTags::SetByCaller::Projectile, Damage);
 	AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 	
 	SpawnImpactEffects();
