@@ -70,8 +70,8 @@ FClosestActorWithTagResult UCallisto_BlueprintLibrary::FindClosestActorWithTag(c
 }
 
 void UCallisto_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target,
-	const TSubclassOf<UGameplayEffect>& DamageEffect, const FGameplayEventData& Payload, const FGameplayTag& DataTag,
-	float Damage)
+	const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload, const FGameplayTag& DataTag,
+	float Damage, UObject* OptionalParticleSystem)
 {
 	ACallisto_BaseCharacter* PlayerCharacter = Cast<ACallisto_BaseCharacter>(Target);
 	if (!IsValid(PlayerCharacter)) return;
@@ -83,6 +83,7 @@ void UCallisto_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target,
 	const bool bLethal = AttributeSet->GetHealth() - Damage <= 0.f;
 	const FGameplayTag EventTag = bLethal ? CallistoTags::Events::Player::Death : CallistoTags::Events::Player::HitReact;
 	
+	Payload.OptionalObject = OptionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerCharacter, EventTag, Payload);
 	
 	UAbilitySystemComponent* TargetASC = PlayerCharacter->GetAbilitySystemComponent();
