@@ -28,6 +28,12 @@ namespace CallistoTags
 	{
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(KillScored);
 		
+		namespace Player
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(Death);
+		}
+		
 		namespace Enemy
 		{
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);

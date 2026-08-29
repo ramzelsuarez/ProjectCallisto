@@ -61,8 +61,8 @@ TArray<FHitResult> UCallisto_MeleeAttack::PerformSphereTrace(USkeletalMeshCompon
 			EDrawDebugTrace::ForDuration, 
 			bHit, 
 			OutHits, 
-			FColor::Green, 
 			FColor::Red, 
+			FColor::Green, 
 			5.f);
 	}
 	
