@@ -76,6 +76,7 @@ void ACallisto_BaseCharacter::HandleRespawn()
 void ACallisto_BaseCharacter::ResetAttributes()
 {
 	checkf(IsValid(ResetAttributesEffect), TEXT("ResetAttributesEffect not set."))
+	if (!IsValid(GetAbilitySystemComponent())) return;
 	
 	FGameplayEffectContextHandle ContextHandle =  GetAbilitySystemComponent()->MakeEffectContext();
 	FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(ResetAttributesEffect, 1.f, ContextHandle);
