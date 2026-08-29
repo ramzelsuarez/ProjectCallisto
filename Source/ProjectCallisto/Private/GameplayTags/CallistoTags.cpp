@@ -29,6 +29,7 @@ namespace CallistoTags
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "CallistoTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event")
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(EndAttack, "CallistoTags.Events.Enemy.EndAttack", "Tag for the Enemy Ending an Attack")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(MeleeTraceHit, "CallistoTags.Events.Enemy.MeleeTraceHit", "Tag for the Enemy Melee Trace Hit")
 		}
 	}
 }
