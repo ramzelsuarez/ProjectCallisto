@@ -28,7 +28,7 @@ namespace CallistoTags
 		namespace Player
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "CallistoTags.Events.Player.HitReact", "Tag for the Player HitReact Event")
-			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Death, "CallistoTags.Events.Enemy.Death", "Tag for the Player Death Event")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Death, "CallistoTags.Events.Player.Death", "Tag for the Player Death Event")
 		}
 		
 		namespace Enemy
