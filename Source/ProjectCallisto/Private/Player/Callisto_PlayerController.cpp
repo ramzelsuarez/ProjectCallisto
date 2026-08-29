@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+#include "Characters/Callisto_BaseCharacter.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/Character.h"
 #include "GameplayTags/CallistoTags.h"
@@ -41,6 +42,7 @@ void ACallisto_PlayerController::SetupInputComponent()
 void ACallisto_PlayerController::Jump()
 {
 	if (!IsValid(GetCharacter())) return;
+	if (!IsAlive()) return;
 	
 	GetCharacter()->Jump();
 }
@@ -48,6 +50,7 @@ void ACallisto_PlayerController::Jump()
 void ACallisto_PlayerController::StopJumping()
 {
 	if (!IsValid(GetCharacter())) return;
+	if (!IsAlive()) return;
 	
 	GetCharacter()->StopJumping();
 }
@@ -55,6 +58,7 @@ void ACallisto_PlayerController::StopJumping()
 void ACallisto_PlayerController::Move(const FInputActionValue& Value)
 {
 	if (!IsValid(GetPawn())) return;
+	if (!IsAlive()) return;
 	
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	
@@ -69,6 +73,7 @@ void ACallisto_PlayerController::Move(const FInputActionValue& Value)
 
 void ACallisto_PlayerController::Look(const FInputActionValue& Value)
 {
+	if (!IsAlive()) return;
 	const FVector2D LookAxisVector = Value.Get<FVector2D>();
 	
 	AddYawInput(LookAxisVector.X); 
@@ -92,8 +97,16 @@ void ACallisto_PlayerController::Tertiary()
 
 void ACallisto_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
 {
+	if (!IsAlive()) return;
 	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
 	if (!IsValid(ASC)) return;
 	
 	ASC->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
+}
+
+bool ACallisto_PlayerController::IsAlive() const
+{
+	ACallisto_BaseCharacter* BaseCharacter = Cast<ACallisto_BaseCharacter>(GetPawn());
+	if (!IsValid(BaseCharacter)) return false;
+	return BaseCharacter->IsAlive();
 }
