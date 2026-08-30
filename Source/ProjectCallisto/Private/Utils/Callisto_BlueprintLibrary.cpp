@@ -75,17 +75,25 @@ FClosestActorWithTagResult UCallisto_BlueprintLibrary::FindClosestActorWithTag(c
 
 void UCallisto_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target,
 	const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload, const FGameplayTag& DataTag,
-	float Damage, UObject* OptionalParticleSystem)
+	float Damage, const FGameplayTag& EventTagOverride, UObject* OptionalParticleSystem)
 {
 	ACallisto_BaseCharacter* PlayerCharacter = Cast<ACallisto_BaseCharacter>(Target);
 	if (!IsValid(PlayerCharacter)) return;
 	if (!PlayerCharacter->IsAlive()) return;
 	
-	UCallisto_AttributeSet* AttributeSet = Cast<UCallisto_AttributeSet>(PlayerCharacter->GetAttributeSet());
-	if (!IsValid(AttributeSet)) return;
+	FGameplayTag EventTag;
+	if (!EventTagOverride.MatchesTagExact(CallistoTags::None))
+	{
+		EventTag = EventTagOverride;
+	}
+	else
+	{
+		UCallisto_AttributeSet* AttributeSet = Cast<UCallisto_AttributeSet>(PlayerCharacter->GetAttributeSet());
+		if (!IsValid(AttributeSet)) return;
 	
-	const bool bLethal = AttributeSet->GetHealth() - Damage <= 0.f;
-	const FGameplayTag EventTag = bLethal ? CallistoTags::Events::Player::Death : CallistoTags::Events::Player::HitReact;
+		const bool bLethal = AttributeSet->GetHealth() - Damage <= 0.f;
+		EventTag = bLethal ? CallistoTags::Events::Player::Death : CallistoTags::Events::Player::HitReact;
+	}
 	
 	Payload.OptionalObject = OptionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerCharacter, EventTag, Payload);
@@ -99,6 +107,16 @@ void UCallisto_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target,
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DataTag, -Damage);
 	
 	TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+
+void UCallisto_BlueprintLibrary::SendDamageEventToPlayers(TArray<AActor*> Targets,
+	const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload, const FGameplayTag& DataTag,
+	float Damage, const FGameplayTag& EventTagOverride, UObject* OptionalParticleSystem)
+{
+	for (AActor* Target : Targets)
+	{
+		SendDamageEventToPlayer(Target, DamageEffect, Payload, DataTag, Damage, EventTagOverride, OptionalParticleSystem);
+	}
 }
 
 TArray<AActor*> UCallisto_BlueprintLibrary::HitBoxOverlapTest(AActor* AvatarActor, float HitBoxRadius, float HitBoxForwardOffset, float HitBoxElevationOffset, bool bDrawDebugs)

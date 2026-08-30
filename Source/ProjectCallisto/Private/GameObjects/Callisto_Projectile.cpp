@@ -33,7 +33,7 @@ void ACallisto_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 	Payload.Instigator = GetOwner();
 	Payload.Target = PlayerCharacter;
 	
-	UCallisto_BlueprintLibrary::SendDamageEventToPlayer(PlayerCharacter, DamageEffect, Payload, CallistoTags::SetByCaller::Projectile, Damage);
+	UCallisto_BlueprintLibrary::SendDamageEventToPlayer(PlayerCharacter, DamageEffect, Payload, CallistoTags::SetByCaller::Projectile, Damage, CallistoTags::None);
 	
 	SpawnImpactEffects();
 	Destroy();

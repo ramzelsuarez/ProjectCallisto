@@ -2,6 +2,8 @@
 
 namespace CallistoTags
 {
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(None, "CallistoTags.None", "None")
+	
 	namespace SetByCaller
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Projectile, "CallistoTags.SetByCaller.Projectile", "Tag for Set by Caller Magnitude for Projectiles")
