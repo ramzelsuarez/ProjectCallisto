@@ -44,7 +44,7 @@ FName UCallisto_BlueprintLibrary::GetHitDirectionName(const EHitDirection& HitDi
 	}
 }
 
-FClosestActorWithTagResult UCallisto_BlueprintLibrary::FindClosestActorWithTag(const UObject* WorldContextObject, const FVector& Origin, const FName& Tag)
+FClosestActorWithTagResult UCallisto_BlueprintLibrary::FindClosestActorWithTag(UObject* WorldContextObject, const FVector& Origin, const FName& Tag, float SearchRange)
 {
 	TArray<AActor*> ActorsWithTag;
 	UGameplayStatics::GetAllActorsWithTag(WorldContextObject, Tag, ActorsWithTag);
@@ -59,6 +59,10 @@ FClosestActorWithTagResult UCallisto_BlueprintLibrary::FindClosestActorWithTag(c
 		if (!IsValid(BaseCharacter) || !BaseCharacter->IsAlive()) continue;
 		
 		const float Distance = FVector::Dist(Origin, Actor->GetActorLocation());
+		if (ACallisto_BaseCharacter* SearchingCharacter = Cast<ACallisto_BaseCharacter>(WorldContextObject); IsValid(SearchingCharacter))
+		{
+			if (Distance > SearchingCharacter->SearchRange) continue;
+		}
 		if (Distance < ClosestDistance)
 		{
 			ClosestDistance = Distance;

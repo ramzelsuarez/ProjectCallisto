@@ -62,7 +62,8 @@ void UCallisto_SearchForTarget::EndAttackEventReceived(FGameplayEventData Payloa
 void UCallisto_SearchForTarget::Search()
 {
 	const FVector SearchOrigin = GetAvatarActorFromActorInfo()->GetActorLocation();
-	FClosestActorWithTagResult ClosestActorResult = UCallisto_BlueprintLibrary::FindClosestActorWithTag(this, SearchOrigin, ProjectCallistoTags::Player);
+	if (!OwningEnemy.IsValid()) return;
+	FClosestActorWithTagResult ClosestActorResult = UCallisto_BlueprintLibrary::FindClosestActorWithTag(GetAvatarActorFromActorInfo(), SearchOrigin, ProjectCallistoTags::Player, OwningEnemy->SearchRange);
 	
 	TargetBaseCharacter = Cast<ACallisto_BaseCharacter>(ClosestActorResult.Actor);
 	
