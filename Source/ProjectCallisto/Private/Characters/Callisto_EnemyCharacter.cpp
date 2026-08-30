@@ -6,6 +6,8 @@
 #include "AIController.h"
 #include "AbilitySystem/Callisto_AbilitySystemComponent.h"
 #include "AbilitySystem/Callisto_AttributeSet.h"
+#include "GameplayTags/CallistoTags.h"
+#include "Net/UnrealNetwork.h"
 
 
 ACallisto_EnemyCharacter::ACallisto_EnemyCharacter()
@@ -19,6 +21,13 @@ ACallisto_EnemyCharacter::ACallisto_EnemyCharacter()
 	AttributeSet = CreateDefaultSubobject<UCallisto_AttributeSet>("AttributeSet");
 }
 
+void ACallisto_EnemyCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(ThisClass, bIsBeingLaunched);
+}
+
 UAbilitySystemComponent* ACallisto_EnemyCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -27,6 +36,25 @@ UAbilitySystemComponent* ACallisto_EnemyCharacter::GetAbilitySystemComponent() c
 UAttributeSet* ACallisto_EnemyCharacter::GetAttributeSet() const
 {
 	return AttributeSet;
+}
+
+void ACallisto_EnemyCharacter::StopMovementUntilLanded()
+{
+	bIsBeingLaunched = true;
+	AAIController* AIController = GetController<AAIController>();
+	if (!IsValid(AIController)) return;
+	AIController->StopMovement();
+	if (!LandedDelegate.IsAlreadyBound(this, &ThisClass::EnabledMovementOnLanded))
+	{
+		LandedDelegate.AddDynamic(this, &ThisClass::EnabledMovementOnLanded);
+	}
+}
+
+void ACallisto_EnemyCharacter::EnabledMovementOnLanded(const FHitResult& Hit)
+{
+	bIsBeingLaunched = false;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, CallistoTags::Events::Enemy::EndAttack, FGameplayEventData());
+	LandedDelegate.RemoveAll(this);
 }
 
 void ACallisto_EnemyCharacter::BeginPlay()

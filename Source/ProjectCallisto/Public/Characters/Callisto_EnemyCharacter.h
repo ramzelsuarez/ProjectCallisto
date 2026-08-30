@@ -16,6 +16,7 @@ class PROJECTCALLISTO_API ACallisto_EnemyCharacter : public ACallisto_BaseCharac
 
 public:
 	ACallisto_EnemyCharacter();
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual UAttributeSet* GetAttributeSet() const override;
 	
@@ -30,12 +31,19 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	float GetTimelineLength();
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
+	bool bIsBeingLaunched{false};
 
+	void StopMovementUntilLanded();
 protected:
 	virtual void BeginPlay() override;
 	virtual void HandleDeath() override;
 	
 private:
+	
+	UFUNCTION()
+	void EnabledMovementOnLanded(const FHitResult& Hit);
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

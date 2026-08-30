@@ -53,7 +53,10 @@ void UCallisto_SearchForTarget::StartSearch()
 
 void UCallisto_SearchForTarget::EndAttackEventReceived(FGameplayEventData Payload)
 {
-	StartSearch();
+	if (OwningEnemy.IsValid() && !OwningEnemy->bIsBeingLaunched)
+	{
+		StartSearch();
+	}
 }
 
 void UCallisto_SearchForTarget::Search()

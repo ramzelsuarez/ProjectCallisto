@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "AbilitySystem/Callisto_AttributeSet.h"
 #include "Characters/Callisto_BaseCharacter.h"
+#include "Characters/Callisto_EnemyCharacter.h"
 #include "Engine/Engine.h"
 #include "Engine/OverlapResult.h"
 #include "GameplayTags/CallistoTags.h"
@@ -196,6 +197,11 @@ TArray<AActor*> UCallisto_BlueprintLibrary::ApplyKnockback(AActor* AvatarActor, 
 		{
 			UWorld* World = GEngine->GetWorldFromContextObject(AvatarActor, EGetWorldErrorMode::LogAndReturnNull);
 			DrawDebugDirectionalArrow(World, HitCharacterLocation, HitCharacterLocation + KnockbackForce, 100.f, FColor::Green, false, 3.f);
+		}
+		
+		if (ACallisto_EnemyCharacter* EnemyCharacter = Cast<ACallisto_EnemyCharacter>(HitCharacter); IsValid(EnemyCharacter))
+		{
+			EnemyCharacter->StopMovementUntilLanded();
 		}
 		
 		HitCharacter->LaunchCharacter(KnockbackForce, true, true);
